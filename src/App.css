@@ -49,9 +49,11 @@
   position: relative; /* Add this to make z-index work */
 }
 
-.ant-card:hover {
-  transform: translateY(-5px);
-  z-index: 20; /* Higher than sticky header's z-index (10) */
+@media (hover: hover) {
+  .ant-card:hover {
+    transform: translateY(-5px);
+    z-index: 20; /* Higher than sticky header's z-index (10) */
+  }
 }
 
 
@@ -65,4 +67,13 @@
 .ant-float-btn {
   opacity: 0.7;
   z-index: 100;
+}
+
+/* --- Switch Component Colors --- */
+.ant-switch:not(.ant-switch-checked) {
+  background-color: #ff4d4f !important; /* 紅色，使用 !important 確保覆寫 */
+}
+
+.ant-switch.ant-switch-checked {
+  background-color: #9254de !important; /* 紫色，使用 !important 確保覆寫 */
 }
