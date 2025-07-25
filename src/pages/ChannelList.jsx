@@ -17,8 +17,8 @@ const ChannelList = () => {
     total: 0,
   });
   const [sortParams, setSortParams] = useState({
-    field: 'createdAt',
-    order: 'descend',
+    field: 'channelName',
+    order: 'ascend',
   });
 
   const fetchChannels = async (page = 0, size = 20, filters = {}, sort = {}) => {
@@ -33,12 +33,10 @@ const ChannelList = () => {
         params.sort = `${sort.field},${sort.order === 'descend' ? 'desc' : 'asc'}`;
       }
       const response = await channelService.getChannels(params);
-      setChannels(response.content.map(channel => ({ ...channel, key: channel.channelId })));
+      setChannels(response.list.map(channel => ({ ...channel, key: channel.channelId })));
       setPagination(prev => ({
         ...prev,
-        total: response.totalElements,
-        current: response.number + 1,
-        pageSize: response.size,
+        total: response.total,
       }));
     } catch (error) {
       message.error('獲取頻道列表失敗');
@@ -49,7 +47,7 @@ const ChannelList = () => {
   };
 
   useEffect(() => {
-    fetchChannels(pagination.current - 1, pagination.pageSize, form.getFieldsValue(), sortParams);
+    fetchChannels(pagination.current, pagination.pageSize, form.getFieldsValue(), sortParams);
   }, [pagination.current, pagination.pageSize, sortParams]);
 
   const handleVerifiedChange = async (channelId, checked) => {
@@ -99,6 +97,7 @@ const ChannelList = () => {
       title: '頻道名稱',
       dataIndex: 'channelName',
       key: 'channelName',
+      sorter: true,
       render: (text, record) => <a href={`https://www.youtube.com/channel/${record.channelId}`} target="_blank" rel="noopener noreferrer">{text}</a>,
     },
     {
@@ -128,8 +127,8 @@ const ChannelList = () => {
     },
     {
       title: '最後更新時間',
-      dataIndex: 'lastUpdated',
-      key: 'lastUpdated',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       sorter: true,
     },
     {
@@ -146,14 +145,14 @@ const ChannelList = () => {
 
   const onFinish = (values) => {
     setPagination(prev => ({ ...prev, current: 1 }));
-    fetchChannels(0, pagination.pageSize, values, sortParams);
+    fetchChannels(1, pagination.pageSize, values, sortParams);
   };
 
   const onReset = () => {
     form.resetFields();
     setPagination(prev => ({ ...prev, current: 1 }));
-    setSortParams({ field: 'createdAt', order: 'descend' });
-    fetchChannels(0, pagination.pageSize, {}, { field: 'createdAt', order: 'descend' });
+    setSortParams({ field: 'channelName', order: 'ascend' });
+    fetchChannels(1, pagination.pageSize, {}, { field: 'channelName', order: 'ascend' });
   };
 
   const handleTableChange = (pagination, filters, sorter) => {
@@ -164,7 +163,7 @@ const ChannelList = () => {
         order: sorter.order,
       });
     } else {
-      setSortParams({ field: 'createdAt', order: 'descend' });
+      setSortParams({ field: 'channelName', order: 'ascend' });
     }
   };
 
@@ -258,3 +257,4 @@ const ChannelList = () => {
 };
 
 export default ChannelList;
+

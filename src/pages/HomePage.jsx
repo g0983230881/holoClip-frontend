@@ -118,9 +118,9 @@ const HomePage = () => {
                 ホロライブ 中文精華基地
             </Title>
             <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#e5e7eb', padding: '16px 1px', width: '100%' }}>
-                <Row gutter={isMobile || isTablet ? [8, 8] : [16, 16]} style={{ justifyContent: 'center', alignItems: 'stretch', ...(isMobile && { marginBottom: 8 }) }}>
+                <Row gutter={isMobile || isTablet ? [8, 8] : [16, 16]} style={{ justifyContent: 'center', alignItems: 'center', ...(isMobile && { marginBottom: 8 }) }}>
                     <Col xs={24} md={7}>
-                        <Flex vertical align="center" justify="space-between" style={{ height: '100%' }}>
+                        <Flex vertical align="center" gap={8}>
                             <Button
                                 type="link"
                                 icon={<BugOutlined />}
@@ -129,24 +129,22 @@ const HomePage = () => {
                             >
                                 回報問題/新增烤肉man頻道
                             </Button>
-                            <div style={{ minHeight: '32px' }}>
-                                {!isMobile && (
-                                    <>
-                                        {selectedChannel ? (
-                                            <a href={`https://www.youtube.com/channel/${selectedChannel.channelId}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'inherit', minWidth: 0 }}>
-                                                <Avatar src={selectedChannel.thumbnailUrl} style={{ marginRight: 8 }} />
-                                                <Typography.Text ellipsis={{ tooltip: selectedChannel.channelName }}>{selectedChannel.channelName}</Typography.Text>
-                                            </a>
-                                        ) : (
-                                            <Typography.Text type="secondary">篩選頻道後此處可前往該頻道</Typography.Text>
-                                        )}
-                                    </>
-                                )}
-                            </div>
+                            {!isMobile && (
+                                <>
+                                    {selectedChannel ? (
+                                        <a href={`https://www.youtube.com/channel/${selectedChannel.channelId}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'inherit', minWidth: 0 }}>
+                                            <Avatar src={selectedChannel.thumbnailUrl} style={{ marginRight: 8 }} />
+                                            <Typography.Text ellipsis={{ tooltip: selectedChannel.channelName }}>{selectedChannel.channelName}</Typography.Text>
+                                        </a>
+                                    ) : (
+                                        <Typography.Text type="secondary">篩選頻道後此處可前往該頻道</Typography.Text>
+                                    )}
+                                </>
+                            )}
                         </Flex>
                     </Col>
                     <Col xs={24} md={8}>
-                        <Flex vertical justify="space-between" style={{ height: '100%' }}>
+                        <Flex vertical gap={8}>
                             <Search
                                 placeholder="搜尋影片標題..."
                                 value={searchTerm}
@@ -175,10 +173,10 @@ const HomePage = () => {
                         </Flex>
                     </Col>
                     <Col xs={0} md={7}>
-                        <Flex vertical align="center" justify="space-between" style={{ height: '100%' }}>
+                        <Flex vertical align="center" gap={8}>
                             <Typography.Text>今日訪客: {visitorStats.today} / 總訪客: {visitorStats.total}</Typography.Text>
                             {!isMobile && (
-                                <Flex align="center" gap={12}>
+                                <Flex align="center" gap={16}>
                                     <Typography.Text style={{ fontSize: '16px' }}>影片</Typography.Text>
                                     <Switch
                                         checked={showShorts}
@@ -193,7 +191,7 @@ const HomePage = () => {
                 </Row>
                 {isMobile && (
                     <Row gutter={[16, 16]} style={{ marginBottom: 4, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Col style={{ flex: 1, minWidth: 0 }}>
+                        <Col style={{ flex: 1, minWidth: 0, textAlign: 'left' }}>
                             {selectedChannel ? (
                                 <Flex align="center" justify="start">
                                     <a href={`https://www.youtube.com/channel/${selectedChannel.channelId}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', color: 'inherit', minWidth: 0 }}>
@@ -227,7 +225,7 @@ const HomePage = () => {
                         {showShorts ? (
                             <Flex wrap="wrap" gap={16} justify="center">
                                 {videos.map(video => (
-                                    <div key={video.videoId} style={{ width: '230px' }}>
+                                    <div key={video.videoId} style={{ width: '300px' }}>
                                         <VideoCard video={video} hideChannelInfo={!!selectedChannel} isShorts={showShorts} />
                                     </div>
                                 ))}
