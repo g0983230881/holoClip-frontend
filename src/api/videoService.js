@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const API_BASE_URL = 'http://localhost:8080/api/videos
-const API_URL = '/api/videos';
+const API_URL = 'https://holoclip-backend.onrender.com/api/videos';
 
 export const fetchVideosAndChannels = async (params) => {
     try {

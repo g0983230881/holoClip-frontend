@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const API_URL = 'http://localhost:8080/api/shorts';
-const API_URL = '/api/shorts';
+// const API_URL = 'http://localhost:8080https://holoclip-backend.onrender.com/api/shorts';
+const API_URL = 'https://holoclip-backend.onrender.com/api/shorts';
 
 export const fetchShortsAndChannels = async (params) => {
   try {
