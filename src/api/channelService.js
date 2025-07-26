@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-const API_BASE_URL = '/api'; // 使用代理
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'; // 使用代理
 
 const channelService = {
   getChannels: async (params) => {
