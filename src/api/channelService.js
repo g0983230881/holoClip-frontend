@@ -2,7 +2,7 @@ import axios from 'axios';
 import { message } from 'antd';
 
 // const API_BASE_URL = 'http://localhost:8080/api'; // 後端 API 的基礎 URL
-const API_BASE_URL = '/api'; // 後端 API 的基礎 URL
+const API_BASE_URL = 'https://holoclip-backend.onrender.com/api'; // 後端 API 的基礎 URL
 
 const channelService = {
   getChannels: async (params) => {
