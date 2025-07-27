@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080
 const channelService = {
   getChannels: async (params) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/channels`, { params });
+      const response = await axios.get(`${API_BASE_URL}/channels`, { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching channels:', error);
