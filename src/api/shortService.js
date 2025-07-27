@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL ? `${import.meta.env.VITE_API_BASE_URL}/shorts` : '/api/shorts'; // 使用代理
+const API_URL = import.meta.env.VITE_API_BASE_URL ? `${import.meta.env.VITE_API_BASE_URL}/shorts` : '/api/shorts';
 
 export const fetchShortsAndChannels = async (params) => {
   try {
