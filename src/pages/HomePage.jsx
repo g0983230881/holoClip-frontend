@@ -66,9 +66,9 @@ const HomePage = () => {
         const getChannels = async () => {
             try {
                 // Pass empty params to get all channels; backend uses PageHelper.
-                const channelsData = await channelService.getChannels({});
+                const channelsData = await channelService.getAllChannelsForFrontend();
                 // PageHelper's page object uses 'list', not 'content'. Fallback to empty array.
-                setChannels(channelsData.list || []);
+                setChannels(channelsData || []);
             } catch (error) {
                 console.error("Failed to fetch channels:", error);
                 setChannels([]); // Set to empty array on error to prevent crash

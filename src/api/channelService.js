@@ -64,6 +64,16 @@ const channelService = {
       throw error;
     }
   },
+
+  getAllChannelsForFrontend: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/channels/all`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all channels for frontend:', error);
+      throw error;
+    }
+  },
 };
 
 export default channelService;
