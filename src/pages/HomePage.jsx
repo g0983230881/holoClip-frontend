@@ -163,6 +163,26 @@ const HomePage = () => {
                                 style={{ width: '100%' }}
                                 allowClear
                                 getPopupContainer={triggerNode => triggerNode.parentNode}
+                                onOpenChange={open => {
+                                    if (open) {
+                                        document.body.style.overflow = 'hidden';
+                                    } else {
+                                        document.body.style.overflow = '';
+                                    }
+                                }}
+                                popupRender={menu => (
+                                    <div
+                                        onMouseDown={e => e.stopPropagation()}
+                                        onTouchMove={e => {
+                                            if (e.cancelable) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                        style={{ touchAction: 'none' }}
+                                    >
+                                        {menu}
+                                    </div>
+                                )}
                             >
                                 {channels.map(channel => (
                                     <Option key={channel.channelId} value={channel.channelId}>
