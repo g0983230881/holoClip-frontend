@@ -131,7 +131,7 @@ const HomePage = () => {
             >
                 ホロライブ 中文精華基地
             </Title>
-            <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#e5e7eb', padding: '16px 1px', width: '100%' }}>
+            <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#e5e7eb', padding: '16px 0', width: '100%' }}>
                 <Row gutter={isMobile || isTablet ? [8, 8] : [16, 16]} style={{ justifyContent: 'center', alignItems: 'center', ...(isMobile && { marginBottom: 8 }) }}>
                     <Col xs={24} md={7}>
                         <Flex vertical align="center" gap={8}>
@@ -251,11 +251,11 @@ const HomePage = () => {
                 )}
             </div>
 
-            <div style={{ minHeight: '70vh', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {loading ? (
                     <Spin size="large" />
                 ) : (
-                    <Flex vertical align="center" justify="center" style={{ width: '100%' }}>
+                    <Flex vertical align="center" justify="center">
                         {showShorts ? (
                             <Flex wrap="wrap" gap={16} justify="center">
                                 {videos.map(video => (
