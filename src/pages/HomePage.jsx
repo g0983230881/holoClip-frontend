@@ -102,19 +102,6 @@ const HomePage = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    useEffect(() => {
-        const dropdownElement = dropdownRef.current;
-        if (dropdownElement) {
-            const handleTouchMove = (event) => {
-                event.preventDefault();
-            };
-            dropdownElement.addEventListener('touchmove', handleTouchMove, { passive: false });
-            return () => {
-                dropdownElement.removeEventListener('touchmove', handleTouchMove), {passive: false};
-            };
-        }
-    }, [dropdownRef]);
-
     const handlePageChange = (page, pageSize) => {
         setPagination(prev => ({ ...prev, current: page, pageSize }));
     };
@@ -140,7 +127,7 @@ const HomePage = () => {
             >
                 ホロライブ 中文精華基地
             </Title>
-            <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: 'rgba(229, 231, 235, 1)', padding: '16px 0', width: '100%' }}>
+            <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: 'rgba(255, 255, 255, 1)', padding: '16px 0', width: '100%' }}>
                 {isMobile && (
                     <Flex justify="space-between" align="center" style={{ marginBottom: 4, padding: '0 8px' }}>
                         <Button
@@ -212,19 +199,6 @@ const HomePage = () => {
                                         document.body.style.overflow = '';
                                     }
                                 }}
-                                popupRender={menu => (
-                                    <div
-                                        onTouchMove={e => {
-                                            if (e.cancelable) {
-                                                e.preventDefault();
-                                            }
-                                            e.stopPropagation();
-                                        }}
-                                        style={{ touchAction: 'none', passive: false}}
-                                    >
-                                        {menu}
-                                    </div>
-                                )}
                             >
                                 {channels.map(channel => (
                                     <Option key={channel.channelId} value={channel.channelId} title={channel.channelName}>
