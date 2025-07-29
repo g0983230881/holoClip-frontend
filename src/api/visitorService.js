@@ -1,40 +1,24 @@
-// This is a mock service. In a real application, this would make API calls to a backend.
+import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const visitorService = {
-    getAndRecordVisit: async () => {
-        // Mock API call
-        console.log("Recording visit and fetching stats...");
-        // In a real app, you might get these values from the backend response.
-        // For now, we'll simulate it with localStorage.
-
-        let stats = JSON.parse(localStorage.getItem('visitorStats'));
-
-        const today = new Date().toISOString().split('T')[0];
-
-        if (!stats) {
-            // First visit ever
-            stats = {
-                total: 1,
-                today: 1,
-                lastVisitDate: today
-            };
-        } else {
-            // Subsequent visits
-            stats.total += 1;
-            if (stats.lastVisitDate !== today) {
-                stats.today = 1; // Reset for the new day
-                stats.lastVisitDate = today;
-            } else {
-                stats.today += 1;
-            }
+    incrementVisitorCount: async () => {
+        try {
+            await axios.post(`${API_BASE_URL}/api/visitor/count`);
+        } catch (error) {
+            console.error('Error incrementing visitor count:', error);
         }
+    },
 
-        localStorage.setItem('visitorStats', JSON.stringify(stats));
-
-        return Promise.resolve({
-            today: stats.today,
-            total: stats.total
-        });
+    getVisitorCount: async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/visitor/count`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching visitor count:', error);
+            return null;
+        }
     }
 };
 

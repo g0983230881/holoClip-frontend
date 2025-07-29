@@ -77,15 +77,16 @@ const HomePage = () => {
         };
         getChannels();
 
-        const fetchVisitorStats = async () => {
+        const fetchVisitorData = async () => {
             try {
-                const stats = await visitorService.getAndRecordVisit();
+                await visitorService.incrementVisitorCount(); // Increment on page load
+                const stats = await visitorService.getVisitorCount(); // Then get the updated count
                 setVisitorStats(stats);
             } catch (error) {
-                console.error("Failed to fetch visitor stats:", error);
+                console.error("Failed to fetch visitor data:", error);
             }
         };
-        fetchVisitorStats();
+        fetchVisitorData();
     }, []);
 
     useEffect(() => {

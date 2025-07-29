@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL ? `${import.meta.env.VITE_API_BASE_URL}/api/shorts` : '/api/shorts';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 export const fetchShortsAndChannels = async (params) => {
   try {
-    const response = await axios.get(API_URL, { params });
+    const response = await axios.get(`${API_BASE_URL}/api/shorts`, { params });
     return response.data;
   } catch (error) {
     console.error('Error fetching shorts and channels:', error);
