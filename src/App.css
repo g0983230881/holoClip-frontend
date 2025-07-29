@@ -77,3 +77,25 @@
 .ant-switch.ant-switch-checked {
   background-color: #9254de !important; /* 紫色，使用 !important 確保覆寫 */
 }
+
+.dropdown-content {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 10px;
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
+    z-index: 1000;
+}
+
+.dropdown-content.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
