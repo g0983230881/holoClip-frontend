@@ -140,7 +140,7 @@ const HomePage = () => {
             >
                 ホロライブ 中文精華基地
             </Title>
-            <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#e5e7eb', padding: '16px 0', width: '100%' }}>
+            <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: 'rgba(229, 231, 235, 1)', padding: '16px 0', width: '100%' }}>
                 {isMobile && (
                     <Flex justify="space-between" align="center" style={{ marginBottom: 4, padding: '0 8px' }}>
                         <Button
