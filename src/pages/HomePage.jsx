@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { List, Input, Select, Row, Col, Typography, Spin, Pagination, Flex, Avatar, Button, Switch } from 'antd';
 import { BugOutlined } from '@ant-design/icons';
 import { fetchVideosAndChannels } from '../api/videoService';
@@ -25,9 +25,6 @@ const HomePage = () => {
         total: 0,
     });
     const [visitorStats, setVisitorStats] = useState({ today: 0, total: 0 });
-
-    const [isOpen, setIsOpen] = useState(false); // 控制下拉選單的開關狀態
-    const dropdownRef = useRef(null); // 用於點擊外部關閉功能
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [isTablet, setIsTablet] = useState(
@@ -101,42 +98,6 @@ const HomePage = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // 處理下拉選單內部的滾動，防止滾動冒泡
-    const handleDropdownScroll = useCallback((e) => {
-        e.stopPropagation();
-        // 阻止被動事件監聽器警告，同時確保滾動行為正常
-        if (e.cancelable) {
-            e.preventDefault();
-        }
-    }, []);
-
-    // 點擊外部關閉下拉選單
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            // 檢查點擊是否在下拉選單內部或 Select 組件本身
-            // Ant Design Select 組件的 class 為 .ant-select-selector
-            const selectSelector = document.querySelector('.ant-select-selector');
-
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
-                selectSelector && !selectSelector.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = 'hidden'; // 鎖定 body 滾動
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = ''; // 解鎖 body 滾動
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = ''; // 清理時確保解鎖
-        };
-    }, [isOpen]);
-
 
     const handlePageChange = (page, pageSize) => {
         setPagination(prev => ({ ...prev, current: page, pageSize }));
@@ -201,18 +162,7 @@ const HomePage = () => {
                                 value={selectedChannel?.channelId}
                                 style={{ width: '100%' }}
                                 allowClear
-                                onDropdownVisibleChange={setIsOpen} // 直接將 Ant Design 的 open 狀態傳遞給 setIsOpen
-                                dropdownRender={menu => (
-                                    <div
-                                        ref={dropdownRef}
-                                        className={`dropdown-content ${isOpen ? 'show' : ''}`}
-                                        onMouseDown={e => e.stopPropagation()}
-                                        onWheel={handleDropdownScroll}
-                                        onTouchMove={handleDropdownScroll}
-                                    >
-                                        {menu}
-                                    </div>
-                                )}
+                                getPopupContainer={triggerNode => triggerNode.parentNode}
                             >
                                 {channels.map(channel => (
                                     <Option key={channel.channelId} value={channel.channelId}>
