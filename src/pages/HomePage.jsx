@@ -13,6 +13,7 @@ const { Search } = Input;
 const { Option } = Select;
 
 const HomePage = () => {
+    const dropdownRef = useRef(null);
     const [showShorts, setShowShorts] = useState(false);
     const [videos, setVideos] = useState([]);
     const [channels, setChannels] = useState([]);
@@ -98,6 +99,20 @@ const HomePage = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        const dropdownElement = dropdownRef.current;
+        if (dropdownElement) {
+            const handleTouchMove = (event) => {
+                event.preventDefault();
+            };
+            event.stopPropagation();
+            dropdownElement.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+            return () => {
+                dropdownElement.removeEventListener('touchmove', handleTouchMove);
+            };
+        }
+    }, [dropdownRef]);
 
     const handlePageChange = (page, pageSize) => {
         setPagination(prev => ({ ...prev, current: page, pageSize }));
@@ -172,13 +187,13 @@ const HomePage = () => {
                                 }}
                                 popupRender={menu => (
                                     <div
-                                        onMouseDown={e => e.stopPropagation()}
                                         onTouchMove={e => {
                                             if (e.cancelable) {
                                                 e.preventDefault();
                                             }
+                                            e.stopPropagation();
                                         }}
-                                        style={{ touchAction: 'none' }}
+                                        style={{ touchAction: 'none', passive: false}}
                                     >
                                         {menu}
                                     </div>
