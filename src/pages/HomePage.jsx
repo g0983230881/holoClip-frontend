@@ -105,11 +105,11 @@ const HomePage = () => {
             const handleTouchMove = (event) => {
                 event.preventDefault();
             };
-            event.stopPropagation();
             dropdownElement.addEventListener('touchmove', handleTouchMove, { passive: false });
-
+            // dropdownElement.addEventListener('touchstart', handleTouchMove, { passive: false });
             return () => {
-                dropdownElement.removeEventListener('touchmove', handleTouchMove);
+                dropdownElement.removeEventListener('touchmove', handleTouchMove), {passive: false};
+                // dropdownElement.addEventListener('touchstart', handleTouchMove, { passive: false });
             };
         }
     }, [dropdownRef]);
