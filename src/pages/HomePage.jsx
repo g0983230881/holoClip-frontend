@@ -163,6 +163,13 @@ const HomePage = () => {
                                 style={{ width: '100%' }}
                                 allowClear
                                 getPopupContainer={triggerNode => triggerNode.parentNode}
+                                onDropdownVisibleChange={open => {
+                                    if (open) {
+                                        document.body.style.overflow = 'hidden';
+                                    } else {
+                                        document.body.style.overflow = '';
+                                    }
+                                }}
                             >
                                 {channels.map(channel => (
                                     <Option key={channel.channelId} value={channel.channelId}>
