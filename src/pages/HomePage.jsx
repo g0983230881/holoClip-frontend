@@ -81,7 +81,9 @@ const HomePage = () => {
             try {
                 await visitorService.incrementVisitorCount(); // Increment on page load
                 const stats = await visitorService.getVisitorCount(); // Then get the updated count
-                setVisitorStats(stats);
+                if (stats) {
+                    setVisitorStats(stats);
+                }
             } catch (error) {
                 console.error("Failed to fetch visitor data:", error);
             }
