@@ -174,6 +174,7 @@ const HomePage = () => {
                                     <div
                                         onMouseDown={e => e.stopPropagation()}
                                         onTouchMove={e => e.preventDefault()}
+                                        style={{ touchAction: 'none' }}
                                     >
                                         {menu}
                                     </div>
