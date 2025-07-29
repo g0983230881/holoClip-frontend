@@ -106,10 +106,10 @@ const HomePage = () => {
                 event.preventDefault();
             };
             dropdownElement.addEventListener('touchmove', handleTouchMove, { passive: false });
-            // dropdownElement.addEventListener('touchstart', handleTouchMove, { passive: false });
+            dropdownElement.addEventListener('touchstart', handleTouchMove, { passive: false });
             return () => {
                 dropdownElement.removeEventListener('touchmove', handleTouchMove), {passive: false};
-                // dropdownElement.addEventListener('touchstart', handleTouchMove, { passive: false });
+                dropdownElement.addEventListener('touchstart', handleTouchMove, { passive: false });
             };
         }
     }, [dropdownRef]);
