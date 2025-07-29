@@ -122,6 +122,13 @@ const HomePage = () => {
         setSearchTerm('');
     };
 
+    const truncateChannelName = (name, maxLength = 15) => {
+        if (name.length > maxLength) {
+            return `${name.substring(0, maxLength)}...`;
+        }
+        return name;
+    };
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Title
@@ -132,23 +139,36 @@ const HomePage = () => {
                 ホロライブ 中文精華基地
             </Title>
             <div style={{ position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#e5e7eb', padding: '16px 0', width: '100%' }}>
+                {isMobile && (
+                    <Flex justify="space-between" align="center" style={{ marginBottom: 4, padding: '0 8px' }}>
+                        <Button
+                            type="link"
+                            icon={<BugOutlined />}
+                            href="https://forms.gle/QLY76i8PXY8DJZzT8"
+                            target="_blank"
+                        >
+                            回報問題/新增頻道
+                        </Button>
+                        <Typography.Text>Today: {visitorStats.today} / Total: {visitorStats.total}</Typography.Text>
+                    </Flex>
+                )}
                 <Row gutter={isMobile || isTablet ? [8, 8] : [16, 16]} style={{ justifyContent: 'center', alignItems: 'center', ...(isMobile && { marginBottom: 8 }) }}>
                     <Col xs={24} md={7}>
                         <Flex vertical align="center" gap={8}>
-                            <Button
-                                type="link"
-                                icon={<BugOutlined />}
-                                href="https://forms.gle/QLY76i8PXY8DJZzT8"
-                                target="_blank"
-                            >
-                                回報問題/新增烤肉man頻道
-                            </Button>
                             {!isMobile && (
                                 <>
+                                    <Button
+                                        type="link"
+                                        icon={<BugOutlined />}
+                                        href="https://forms.gle/QLY76i8PXY8DJZzT8"
+                                        target="_blank"
+                                    >
+                                        回報問題/新增烤肉man頻道
+                                    </Button>
                                     {selectedChannel ? (
                                         <a href={`https://www.youtube.com/channel/${selectedChannel.channelId}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'inherit', minWidth: 0 }}>
                                             <Avatar src={selectedChannel.thumbnailUrl} style={{ marginRight: 8 }} />
-                                            <Typography.Text ellipsis={{ tooltip: selectedChannel.channelName }}>{selectedChannel.channelName}</Typography.Text>
+                                            <Typography.Text>前往頻道點我</Typography.Text>
                                         </a>
                                     ) : (
                                         <Typography.Text type="secondary">篩選頻道後此處可前往該頻道</Typography.Text>
@@ -175,6 +195,12 @@ const HomePage = () => {
                                 }}
                                 value={selectedChannel?.channelId}
                                 style={{ width: '100%' }}
+                                styles={{
+                                    selector: {
+                                        // This ensures the text inside the selector will not overflow.
+                                        overflow: 'hidden',
+                                    }
+                                }}
                                 allowClear
                                 getPopupContainer={triggerNode => triggerNode.parentNode}
                                 onOpenChange={open => {
@@ -199,8 +225,8 @@ const HomePage = () => {
                                 )}
                             >
                                 {channels.map(channel => (
-                                    <Option key={channel.channelId} value={channel.channelId}>
-                                        {channel.channelName}
+                                    <Option key={channel.channelId} value={channel.channelId} title={channel.channelName}>
+                                        {truncateChannelName(channel.channelName)}
                                     </Option>
                                 ))}
                             </Select>
@@ -208,7 +234,7 @@ const HomePage = () => {
                     </Col>
                     <Col xs={0} md={7}>
                         <Flex vertical align="center" gap={8}>
-                            <Typography.Text>今日訪客: {visitorStats.today} / 總訪客: {visitorStats.total}</Typography.Text>
+                            <Typography.Text>Today: {visitorStats.today} / Total: {visitorStats.total}</Typography.Text>
                             {!isMobile && (
                                 <Flex align="center" gap={16}>
                                     <Typography.Text style={{ fontSize: '16px' }}>影片</Typography.Text>
@@ -227,10 +253,10 @@ const HomePage = () => {
                     <Row gutter={[16, 16]} style={{ marginBottom: 4, justifyContent: 'space-between', alignItems: 'center' }}>
                         <Col style={{ flex: 1, minWidth: 0, textAlign: 'left' }}>
                             {selectedChannel ? (
-                                <Flex align="center" justify="start">
+                                <Flex align="center" justify="start" style={{ minWidth: 8 }}>
                                     <a href={`https://www.youtube.com/channel/${selectedChannel.channelId}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', color: 'inherit', minWidth: 0 }}>
                                         <Avatar src={selectedChannel.thumbnailUrl} style={{ marginRight: 8 }} />
-                                        <Typography.Text ellipsis={{ tooltip: selectedChannel.channelName }}>{selectedChannel.channelName}</Typography.Text>
+                                        <Typography.Text>前往頻道點我</Typography.Text>
                                     </a>
                                 </Flex>
                             ) : (
@@ -259,29 +285,19 @@ const HomePage = () => {
                         {showShorts ? (
                             <Flex wrap="wrap" gap={16} justify="center">
                                 {videos.map(video => (
-                                    <div key={video.videoId} style={{ width: '300px' }}>
+                                    <div key={video.videoId} style={{ width: '350px' }}>
                                         <VideoCard video={video} hideChannelInfo={!!selectedChannel} isShorts={showShorts} />
                                     </div>
                                 ))}
                             </Flex>
                         ) : (
-                            <List
-                                grid={{
-                                    gutter: 16,
-                                    xs: 1,
-                                    sm: 2,
-                                    md: 3,
-                                    lg: 4,
-                                    xl: 5,
-                                    xxl: 5,
-                                }}
-                                dataSource={videos}
-                                renderItem={video => (
-                                    <List.Item>
+                            <Flex wrap="wrap" gap={16} justify="center">
+                                {videos.map(video => (
+                                    <div key={video.videoId} style={{ width: '350px' }}>
                                         <VideoCard video={video} hideChannelInfo={!!selectedChannel} isShorts={showShorts} />
-                                    </List.Item>
-                                )}
-                            />
+                                    </div>
+                                ))}
+                            </Flex>
                         )}
                         <Pagination
                             style={{ marginTop: 20, textAlign: 'center' }}
