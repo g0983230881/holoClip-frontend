@@ -170,6 +170,14 @@ const HomePage = () => {
                                         document.body.style.overflow = '';
                                     }
                                 }}
+                                dropdownRender={menu => (
+                                    <div
+                                        onMouseDown={e => e.stopPropagation()}
+                                        onTouchMove={e => e.preventDefault()}
+                                    >
+                                        {menu}
+                                    </div>
+                                )}
                             >
                                 {channels.map(channel => (
                                     <Option key={channel.channelId} value={channel.channelId}>
