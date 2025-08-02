@@ -121,15 +121,26 @@ const ChannelList = () => {
       ),
     },
     {
-      title: '備註',
-      dataIndex: 'notes',
-      key: 'notes',
-    },
-    {
-      title: '最後更新時間',
+      title: '頻道最後更新時間',
       dataIndex: 'createdAt',
       key: 'createdAt',
       sorter: true,
+      render: (text) => {
+        if (!text) return '-';
+        const d = new Date(text);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
+      }
+    },
+    {
+      title: '影片/Shorts 最新發布時間',
+      dataIndex: 'publishedAt',
+      key: 'publishedAt',
+      sorter: true,
+      render: (text) => {
+        if (!text) return '-';
+        const d = new Date(text);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
+      }
     },
     {
       title: '操作',

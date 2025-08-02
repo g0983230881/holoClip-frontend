@@ -4,6 +4,7 @@ import { BugOutlined } from '@ant-design/icons';
 import { fetchVideosAndChannels } from '../api/videoService';
 import { fetchShortsAndChannels } from '../api/shortService';
 import channelService from '../api/channelService';
+import { getMembers } from '../api/memberService';
 import visitorService from '../api/visitorService';
 import VideoCard from '../components/VideoCard';
 import { useDebounce } from '../hooks/useDebounce';
@@ -20,6 +21,8 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedChannel, setSelectedChannel] = useState(null);
+    const [members, setMembers] = useState([]);
+    const [selectedMember, setSelectedMember] = useState('');
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 50,
@@ -40,6 +43,7 @@ const HomePage = () => {
             const params = {
                 search: debouncedSearchTerm,
                 channelId: selectedChannel ? selectedChannel.channelId : null,
+                member: selectedMember,
                 page: pagination.current - 1, // Spring Page is 0-indexed
                 size: pagination.pageSize,
             };
@@ -57,7 +61,7 @@ const HomePage = () => {
         } finally {
             setLoading(false);
         }
-    }, [debouncedSearchTerm, selectedChannel, pagination.current, pagination.pageSize, showShorts]);
+    }, [debouncedSearchTerm, selectedChannel, selectedMember, pagination.current, pagination.pageSize, showShorts]);
 
     useEffect(() => {
         fetchData();
@@ -76,6 +80,15 @@ const HomePage = () => {
             }
         };
         getChannels();
+
+        getMembers()
+            .then(membersData => {
+                setMembers(membersData || []);
+            })
+            .catch(error => {
+                console.error("Failed to fetch members:", error);
+                setMembers([]);
+            });
 
         const fetchVisitorData = async () => {
             try {
@@ -108,6 +121,7 @@ const HomePage = () => {
 
     const handleReset = () => {
         setSelectedChannel(null);
+        setSelectedMember('');
         setSearchTerm('');
     };
 
@@ -176,6 +190,20 @@ const HomePage = () => {
                                 style={{ width: '100%' }}
                                 allowClear
                             />
+                            <Select
+                                placeholder="選擇成員"
+                                value={selectedMember}
+                                onChange={value => setSelectedMember(value)}
+                                style={{ width: '100%' }}
+                                allowClear
+                            >
+                                <Option value="" style={{ textAlign: 'center' }}>所有成員</Option>
+                                {members.map(member => (
+                                    <Option key={member.englishName} value={member.englishName} style={{ textAlign: 'center' }}>
+                                        {member.japaneseName}
+                                    </Option>
+                                ))}
+                            </Select>
                             <Select
                                 placeholder="選擇頻道"
                                 onChange={value => {

@@ -76,7 +76,7 @@ const ChannelDetailEdit = () => {
           <Form.Item name="thumbnailUrl" label="縮圖URL">
             <Input disabled />
           </Form.Item>
-          <Form.Item name="lastUpdated" label="最後更新時間">
+          <Form.Item name="lastUpdated" label="頻道最後更新時間">
             <Input disabled />
           </Form.Item>
           <Form.Item name="createdAt" label="建立時間">
