@@ -1,11 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-
 const visitorService = {
     incrementVisitorCount: async () => {
         try {
-            await axios.post(`${API_BASE_URL}/api/visitor/count`);
+            await axios.post(`/api/visitor/count`);
         } catch (error) {
             console.error('Error incrementing visitor count:', error);
         }
@@ -13,7 +11,7 @@ const visitorService = {
 
     getVisitorCount: async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/visitor/count`);
+            const response = await axios.get(`/api/visitor/count`);
             return response.data;
         } catch (error) {
             console.error('Error fetching visitor count:', error);
