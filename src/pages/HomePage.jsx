@@ -20,7 +20,7 @@ const HomePage = () => {
     const [channels, setChannels] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedChannel, setSelectedChannel] = useState(null);
+    const [selectedChannel, setSelectedChannel] = useState('');
     const [members, setMembers] = useState([]);
     const [selectedMember, setSelectedMember] = useState('');
     const [pagination, setPagination] = useState({
@@ -42,7 +42,7 @@ const HomePage = () => {
         try {
             const params = {
                 search: debouncedSearchTerm,
-                channelId: selectedChannel ? selectedChannel.channelId : null,
+                channelId: selectedChannel ? selectedChannel.channelId : '',
                 member: selectedMember,
                 page: pagination.current - 1, // Spring Page is 0-indexed
                 size: pagination.pageSize,
@@ -120,7 +120,7 @@ const HomePage = () => {
     };
 
     const handleReset = () => {
-        setSelectedChannel(null);
+        setSelectedChannel('');
         setSelectedMember('');
         setSearchTerm('');
     };
@@ -207,10 +207,14 @@ const HomePage = () => {
                             <Select
                                 placeholder="選擇頻道"
                                 onChange={value => {
-                                    const channel = channels.find(c => c.channelId === value);
-                                    setSelectedChannel(channel);
+                                    if (value === '') {
+                                        setSelectedChannel('');
+                                    } else {
+                                        const channel = channels.find(c => c.channelId === value);
+                                        setSelectedChannel(channel);
+                                    }
                                 }}
-                                value={selectedChannel?.channelId}
+                                value={selectedChannel?.channelId || ''}
                                 style={{ width: '100%' }}
                                 styles={{
                                     selector: {
@@ -228,6 +232,7 @@ const HomePage = () => {
                                     }
                                 }}
                             >
+                                <Option value="" style={{ textAlign: 'center' }}>所有頻道</Option>
                                 {channels.map(channel => (
                                     <Option key={channel.channelId} value={channel.channelId} title={channel.channelName}>
                                         {truncateChannelName(channel.channelName)}
