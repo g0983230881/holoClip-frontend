@@ -193,7 +193,7 @@ const HomePage = () => {
                             <Select
                                 placeholder="選擇成員"
                                 value={selectedMember}
-                                onChange={value => setSelectedMember(value)}
+                                onChange={value => setSelectedMember(value || '')}
                                 style={{ width: '100%' }}
                                 allowClear
                             >
