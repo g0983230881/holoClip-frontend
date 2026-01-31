@@ -73,7 +73,7 @@ export function StickyHeader({
           </div>
 
           {/* 成員篩選 */}
-          <Select value={selectedMember || 'all'} onValueChange={onMemberChange}>
+          {/* <Select value={selectedMember || 'all'} onValueChange={onMemberChange}>
             <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
               <SelectValue placeholder="👤 選擇成員" />
             </SelectTrigger>
@@ -84,21 +84,23 @@ export function StickyHeader({
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select>
+          </Select> */}
 
           {/* 剪輯頻道篩選 */}
-          <Select value={selectedCategory || 'all'} onValueChange={onCategoryChange}>
-            <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
-              <SelectValue placeholder="📺 選擇剪輯頻道" />
-            </SelectTrigger>
-            <SelectContent className="bg-gray-800 border-gray-700 text-white">
-              {channelOptions.map((channel) => (
-                <SelectItem key={channel.value} value={channel.value} className="focus:bg-gray-700">
-                  {channel.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="lg:col-span-2">
+            <Select value={selectedCategory || 'all'} onValueChange={onCategoryChange}>
+              <SelectTrigger className="bg-gray-700 border-gray-600 text-white w-full">
+                <SelectValue placeholder="📺 選擇剪輯頻道" />
+              </SelectTrigger>
+              <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                {channelOptions.map((channel) => (
+                  <SelectItem key={channel.value} value={channel.value} className="focus:bg-gray-700">
+                    {channel.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* 連結和統計區 */}
