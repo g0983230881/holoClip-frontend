@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Play, Clock, Youtube } from 'lucide-react';
 import { VideoCardData } from '@/types';
 
@@ -8,6 +8,8 @@ interface VideoCardProps {
 }
 
 export function VideoCard({ video, hideChannelInfo = false }: VideoCardProps) {
+  const [imageError, setImageError] = useState(false);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -17,20 +19,25 @@ export function VideoCard({ video, hideChannelInfo = false }: VideoCardProps) {
     if (diffDays === 0) return '今天';
     if (diffDays === 1) return '昨天';
     if (diffDays < 7) return `${diffDays}天前`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)}週前`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)}個月前`;
-    return `${Math.floor(diffDays / 365)}年前`;
+    if (diffDays < 30) {
+      const weeks = Math.floor(diffDays / 7);
+      return `${weeks}週前`;
+    }
+    if (diffDays < 365) {
+      const months = Math.floor(diffDays / 30);
+      return `${months}個月前`;
+    }
+    const years = Math.floor(diffDays / 365);
+    return `${years}年前`;
   };
 
   const isShorts = video.type === 'shorts';
   const channelName = video.channelTitle || video.category || '未知頻道';
 
-  // 调试：检查缩略图 URL
-  // useEffect(() => {
-  //   if (video.thumbnail) {
-  //     console.log('VideoCard thumbnail URL:', video.thumbnail);
-  //   }
-  // }, [video.thumbnail]);
+  // 如果縮圖載入失敗，不顯示整個卡片
+  if (imageError) {
+    return null;
+  }
 
   return (
     <a
@@ -52,8 +59,7 @@ export function VideoCard({ video, hideChannelInfo = false }: VideoCardProps) {
             // }}
             onError={(e) => {
               console.error('Image failed to load:', video.thumbnail);
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
+              setImageError(true);
             }}
           />
 
